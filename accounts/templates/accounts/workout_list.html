@@ -1,0 +1,13 @@
+
+{% block content %}
+    <h2>Workout Schedule</h2>
+    <a href="{% url 'add_workout' %}">Add Schedule</a>
+    <ul>
+        {% for schedule in schedules %}
+            <li>{{ schedule.workout }} - {{ schedule.date }} - {{ schedule.time }}
+                <a href="{% url 'edit_workout' schedule.pk %}">Edit</a> |
+                <a href="{% url 'delete_workout' schedule.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

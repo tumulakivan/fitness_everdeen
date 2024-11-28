@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h2>Workout Tips</h2>
+    <a href="{% url 'add_tip' %}">Add Tip</a>
+    <ul>
+        {% for tip in tips %}
+            <li>{{ tip.workout_name }}: {{ tip.tip }}
+                <a href="{% url 'update_tip' tip.pk %}">Edit</a> |
+                <a href="{% url 'delete_tip' tip.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

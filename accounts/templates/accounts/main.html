@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            gap: 10px;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+
+        /* Content styles */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background-color: #f8f9fa;
+        }
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+
+        /* Card styles */
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card .btn {
+            margin-right: 5px;
+        }
+
+        /* Add button */
+        .add-workout-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <div class="logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="Logo" width="70" height="70" class="rounded-circle">
+                <h3>Fitness Everdeen</h3>
+            </div>
+            <a href="{% url 'main' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'workout_list' %}"><i class="fas fa-calendar-alt"></i> Workout List</a>
+            <a href="{% url 'add_workout' %}"><i class="fas fa-dumbbell"></i> Create Workout</a>
+        </div>
+        <a href="{% url 'logout' %}" class="mt-auto"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="welcome-section">
+            <h1>Welcome, {{ request.user.username }}</h1>
+            <p>Here are your workouts:</p>
+        </div>
+
+        <div class="row">
+            {% for workout in workouts %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ workout.name }}</h5>
+                        <p class="card-text">{{ workout.description }}</p>
+                        <p class="card-text">{{ workout.type }}</p>
+                        <a href="{% url 'edit_workout' workout.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete_workout' workout.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No workouts found. Add a new one!</p>
+            {% endfor %}
+        </div>
+
+        <div class="add-workout-btn">
+            <a href="{% url 'add_workout' %}" class="btn btn-success">Add New Workout</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
